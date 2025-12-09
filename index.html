@@ -288,6 +288,94 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .music-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #8b6f47;
+            color: white;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .music-btn:hover {
+            background: #6f5739;
+            transform: scale(1.1);
+        }
+
+        .music-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .music-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #8b6f47;
+        }
+
+        .music-artist {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            border-radius: 2px;
+            background: #ddd;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #8b6f47;
+            cursor: pointer;
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #8b6f47;
+            cursor: pointer;
+            border: none;
+        }
+
         @media (max-width: 968px) {
             .book {
                 flex-direction: column;
@@ -343,6 +431,21 @@
             .photo-frame.large img {
                 height: 300px;
             }
+
+            .music-player {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 15px;
+                gap: 10px;
+            }
+
+            .music-info {
+                display: none;
+            }
+
+            .volume-control {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -360,12 +463,12 @@
                 </div>
 
                 <div class="photo-frame">
-                    <img src="yang 2.jpg" alt="Foto 1">
-                    <div class="photo-caption">Momen Indah</div>
+                    <img src="https://via.placeholder.com/400x300/D4A574/FFFFFF?text=Foto+1" alt="Foto 1">
+                    <div class="photo-caption">Momen Indah Bersama</div>
                 </div>
 
                 <div class="photo-frame">
-                    <img src="yang 1.jpg" alt="Foto 2">
+                    <img src="https://via.placeholder.com/400x300/8B6F47/FFFFFF?text=Foto+2" alt="Foto 2">
                     <div class="photo-caption">Kenangan Yang Tak Terlupakan</div>
                 </div>
 
@@ -377,11 +480,12 @@
                 <div class="decorative-corner corner-br"></div>
                 
                 <div class="message-section">
-                    <h2>Untuk Bu Boss</h2>
+                    <h2>Untuk Kakak Tersayang</h2>
                     
                     <p>
                         Selamat ulang tahun untuk kakak terbaik di dunia! Di hari istimewa ini, 
-                        terima kasih atas semua yang telah kakak lakukan, selalu menjadi inspirasi dan teladan yang luar biasa bagiku.
+                        aku ingin mengucapkan terima kasih atas semua yang telah kakak lakukan. 
+                        Kakak selalu menjadi inspirasi dan teladan yang luar biasa bagiku.
                     </p>
 
                     <p>
@@ -407,7 +511,7 @@
                 <div class="decorative-corner corner-bl"></div>
                 
                 <div class="photo-frame large">
-                    <img src="yang 9.jpg" alt="Foto 3">
+                    <img src="https://via.placeholder.com/400x520/A0826D/FFFFFF?text=Foto+3" alt="Foto 3">
                     <div class="photo-caption">Moment Spesial</div>
                 </div>
 
@@ -419,7 +523,7 @@
                 <div class="decorative-corner corner-br"></div>
                 
                 <div class="photo-frame large">
-                    <img src="yang 10.jpg" alt="Foto 4">
+                    <img src="https://via.placeholder.com/400x520/C4A574/FFFFFF?text=Foto+4" alt="Foto 4">
                     <div class="photo-caption">Kenangan Manis</div>
                 </div>
 
@@ -432,12 +536,12 @@
                 <div class="decorative-corner corner-bl"></div>
                 
                 <div class="photo-frame">
-                    <img src="yang 4.jpg" alt="Foto 5">
+                    <img src="https://via.placeholder.com/400x300/8B7355/FFFFFF?text=Foto+5" alt="Foto 5">
                     <div class="photo-caption">Senyum Bahagia</div>
                 </div>
 
                 <div class="photo-frame">
-                    <img src="yang 5.jpg" alt="Foto 6">
+                    <img src="https://via.placeholder.com/400x300/9B8265/FFFFFF?text=Foto+6" alt="Foto 6">
                     <div class="photo-caption">Tawa Ceria</div>
                 </div>
 
@@ -449,12 +553,12 @@
                 <div class="decorative-corner corner-br"></div>
                 
                 <div class="photo-frame">
-                    <img src="yang 6.jpg" alt="Foto 7">
+                    <img src="https://via.placeholder.com/400x300/AB9275/FFFFFF?text=Foto+7" alt="Foto 7">
                     <div class="photo-caption">Kebersamaan</div>
                 </div>
 
                 <div class="photo-frame">
-                    <img src="yang 11.jpg" alt="Foto 8">
+                    <img src="https://via.placeholder.com/400x300/BB8265/FFFFFF?text=Foto+8" alt="Foto 8">
                     <div class="photo-caption">Persahabatan</div>
                 </div>
 
@@ -528,9 +632,60 @@
         </div>
     </div>
 
+    <!-- Music Player -->
+    <div class="music-player">
+        <button class="music-btn" id="playBtn" onclick="toggleMusic()">▶</button>
+        <div class="music-info">
+            <div class="music-title">Semua Aku Dirayakan</div>
+            <div class="music-artist">Nadin Amizah</div>
+        </div>
+        <div class="volume-control">
+            <span style="font-size: 14px;">🔊</span>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70" onchange="changeVolume()">
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="nadin-amizah-semua-aku-dirayakan.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
         let currentSpread = 1;
         const totalSpreads = 4;
+        const music = document.getElementById('bgMusic');
+        const playBtn = document.getElementById('playBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        let isPlaying = false;
+
+        // Set initial volume
+        music.volume = 0.7;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                playBtn.textContent = '▶';
+                isPlaying = false;
+            } else {
+                music.play();
+                playBtn.textContent = '⏸';
+                isPlaying = true;
+            }
+        }
+
+        function changeVolume() {
+            music.volume = volumeSlider.value / 100;
+        }
+
+        // Auto play music when page loads (with user interaction fallback)
+        window.addEventListener('load', () => {
+            music.play().then(() => {
+                playBtn.textContent = '⏸';
+                isPlaying = true;
+            }).catch(() => {
+                // If autoplay is blocked, user needs to click play
+                console.log('Autoplay blocked. Click play button to start music.');
+            });
+        });
 
         function updatePages() {
             const allPages = document.querySelectorAll('.page');
