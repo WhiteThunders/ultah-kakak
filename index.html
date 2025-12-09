@@ -144,6 +144,10 @@
             object-fit: cover;
             display: block;
             border: 1px solid #e8e8e8;
+            background: linear-gradient(135deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0),
+                        linear-gradient(135deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
         }
 
         .photo-frame.large img {
@@ -376,6 +380,50 @@
             border: none;
         }
 
+        .music-status {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+        }
+
+        .start-overlay.hidden {
+            display: none;
+        }
+
+        .start-button {
+            padding: 20px 50px;
+            font-size: 24px;
+            background: linear-gradient(135deg, #8b6f47 0%, #6f5739 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .start-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
         @media (max-width: 968px) {
             .book {
                 flex-direction: column;
@@ -450,6 +498,11 @@
     </style>
 </head>
 <body>
+    <!-- Start Overlay -->
+    <div class="start-overlay" id="startOverlay">
+        <button class="start-button" onclick="startExperience()">🎉 Mulai 🎉</button>
+    </div>
+
     <div class="book-container">
         <div class="book">
             <!-- Halaman 1 & 2 -->
@@ -463,12 +516,12 @@
                 </div>
 
                 <div class="photo-frame">
-                    <img src="yang 2.jpg" alt="Foto 1">
+                    <img src="yang 2.jpg" alt="Foto 1" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22300%22/%3E%3Ctext fill=%22%23999%22 font-family=%22Arial%22 font-size=%2220%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3EFoto 1%3C/text%3E%3C/svg%3E'">
                     <div class="photo-caption">Momen Indah Bersama</div>
                 </div>
 
                 <div class="photo-frame">
-                    <img src="yang 2.jpg" alt="Foto 2">
+                    <img src="yang 2.jpg" alt="Foto 2" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22300%22/%3E%3Ctext fill=%22%23999%22 font-family=%22Arial%22 font-size=%2220%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3EFoto 2%3C/text%3E%3C/svg%3E'">
                     <div class="photo-caption">Kenangan Yang Tak Terlupakan</div>
                 </div>
 
@@ -510,7 +563,7 @@
                 <div class="decorative-corner corner-bl"></div>
                 
                 <div class="photo-frame large">
-                    <img src="yang 9.jpg" alt="Foto 3">
+                    <img src="yang 9.jpg" alt="Foto 3" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22520%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22520%22/%3E%3Ctext fill=%22%23999%22 font-family=%22Arial%22 font-size=%2220%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3EFoto 3%3C/text%3E%3C/svg%3E'">
                     <div class="photo-caption">Moment Spesial</div>
                 </div>
 
@@ -522,7 +575,7 @@
                 <div class="decorative-corner corner-br"></div>
                 
                 <div class="photo-frame large">
-                    <img src="yang 10.jpg" alt="Foto 4">
+                    <img src="yang 10.jpg" alt="Foto 4" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22520%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22520%22/%3E%3Ctext fill=%22%23999%22 font-family=%22Arial%22 font-size=%2220%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3EFoto 4%3C/text%3E%3C/svg%3E'">
                     <div class="photo-caption">Kenangan Manis</div>
                 </div>
 
@@ -535,12 +588,12 @@
                 <div class="decorative-corner corner-bl"></div>
                 
                 <div class="photo-frame">
-                    <img src="yang 4.jpg" alt="Foto 5">
+                    <img src="yang 4.jpg" alt="Foto 5" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22300%22/%3E%3Ctext fill=%22%23999%22 font-family=%22Arial%22 font-size=%2220%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3EFoto 5%3C/text%3E%3C/svg%3E'">
                     <div class="photo-caption">Senyum Bahagia</div>
                 </div>
 
                 <div class="photo-frame">
-                    <img src="yang 5.jpg" alt="Foto 6">
+                    <img src="yang 5.jpg" alt="Foto 6" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22300%22/%3E%3Ctext fill=%22%23999%22 font-family=%22Arial%22 font-size=%2220%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3EFoto 6%3C/text%3E%3C/svg%3E'">
                     <div class="photo-caption">Tawa Ceria</div>
                 </div>
 
@@ -552,12 +605,12 @@
                 <div class="decorative-corner corner-br"></div>
                 
                 <div class="photo-frame">
-                    <img src="yang 6.jpg" alt="Foto 7">
+                    <img src="yang 6.jpg" alt="Foto 7" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22300%22/%3E%3Ctext fill=%22%23999%22 font-family=%22Arial%22 font-size=%2220%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3EFoto 7%3C/text%3E%3C/svg%3E'">
                     <div class="photo-caption">Kebersamaan</div>
                 </div>
 
                 <div class="photo-frame">
-                    <img src="yang 11.jpg" alt="Foto 8">
+                    <img src="yang 11.jpg" alt="Foto 8" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22300%22/%3E%3Ctext fill=%22%23999%22 font-family=%22Arial%22 font-size=%2220%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3EFoto 8%3C/text%3E%3C/svg%3E'">
                     <div class="photo-caption">Persahabatan</div>
                 </div>
 
@@ -635,17 +688,19 @@
     <div class="music-player">
         <button class="music-btn" id="playBtn" onclick="toggleMusic()">▶</button>
         <div class="music-info">
-            <div class="music-title">Semua Aku Dirayakan</div>
-            <div class="music-artist">Nadin Amizah</div>
+            <div class="music-title">Happy Birthday Song</div>
+            <div class="music-artist">Background Music</div>
+            <div class="music-status" id="musicStatus">Klik play untuk mulai</div>
         </div>
         <div class="volume-control">
             <span style="font-size: 14px;">🔊</span>
-            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70" onchange="changeVolume()">
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70" oninput="changeVolume()">
         </div>
     </div>
 
     <audio id="bgMusic" loop>
-        <source src="nadin-amizah-semua-aku-dirayakan.mp3" type="audio/mpeg">
+        <!-- Ganti URL di bawah dengan file musik Anda -->
+        <source src="semua akan dirayakan.mp4" type="audio/mpeg">
     </audio>
 
     <script>
@@ -654,20 +709,41 @@
         const music = document.getElementById('bgMusic');
         const playBtn = document.getElementById('playBtn');
         const volumeSlider = document.getElementById('volumeSlider');
+        const musicStatus = document.getElementById('musicStatus');
+        const startOverlay = document.getElementById('startOverlay');
         let isPlaying = false;
 
         // Set initial volume
         music.volume = 0.7;
 
+        function startExperience() {
+            startOverlay.classList.add('hidden');
+            music.play().then(() => {
+                playBtn.textContent = '⏸';
+                musicStatus.textContent = 'Sedang diputar';
+                isPlaying = true;
+            }).catch(err => {
+                console.log('Audio play error:', err);
+                musicStatus.textContent = 'Klik play untuk mulai';
+            });
+        }
+
         function toggleMusic() {
             if (isPlaying) {
                 music.pause();
                 playBtn.textContent = '▶';
+                musicStatus.textContent = 'Dijeda';
                 isPlaying = false;
             } else {
-                music.play();
-                playBtn.textContent = '⏸';
-                isPlaying = true;
+                music.play().then(() => {
+                    playBtn.textContent = '⏸';
+                    musicStatus.textContent = 'Sedang diputar';
+                    isPlaying = true;
+                }).catch(err => {
+                    console.error('Error playing audio:', err);
+                    musicStatus.textContent = 'Error: Tidak dapat memutar';
+                    alert('Tidak dapat memutar musik. Pastikan file audio tersedia atau URL valid.');
+                });
             }
         }
 
@@ -675,15 +751,17 @@
             music.volume = volumeSlider.value / 100;
         }
 
-        // Auto play music when page loads (with user interaction fallback)
-        window.addEventListener('load', () => {
-            music.play().then(() => {
-                playBtn.textContent = '⏸';
-                isPlaying = true;
-            }).catch(() => {
-                // If autoplay is blocked, user needs to click play
-                console.log('Autoplay blocked. Click play button to start music.');
-            });
+        // Error handling for audio
+        music.addEventListener('error', (e) => {
+            console.error('Audio loading error:', e);
+            musicStatus.textContent = 'File musik tidak ditemukan';
+            playBtn.textContent = '▶';
+            isPlaying = false;
+        });
+
+        // Audio loaded successfully
+        music.addEventListener('canplaythrough', () => {
+            console.log('Audio loaded successfully');
         });
 
         function updatePages() {
@@ -717,8 +795,17 @@
             }
         }
 
-        updatePages();
-    </script>
-</body>
-</html>
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextPage();
+            } else if (e.key === 'ArrowLeft') {
+                previousPage();
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                toggleMusic();
+            }
+        });
 
+        // Initialize
+        updatePages();
