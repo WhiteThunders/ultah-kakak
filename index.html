@@ -401,7 +401,9 @@
         }
 
         .start-overlay.hidden {
-            display: none;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
         }
 
         .start-button {
@@ -500,7 +502,7 @@
 <body>
     <!-- Start Overlay -->
     <div class="start-overlay" id="startOverlay">
-        <button class="start-button" onclick="startExperience()">🎉 Mulai 🎉</button>
+        <button class="start-button" onclick="startExperience()" id="startBtn">🎉 Mulai 🎉</button>
     </div>
 
     <div class="book-container">
@@ -700,7 +702,8 @@
 
     <audio id="bgMusic" loop>
         <!-- Ganti URL di bawah dengan file musik Anda -->
-        <source src="semua akan dirayakan.mp4" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        <source src="nadin-amizah-semua-aku-dirayakan.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -717,14 +720,24 @@
         music.volume = 0.7;
 
         function startExperience() {
-            startOverlay.classList.add('hidden');
+            // Hide overlay first
+            if (startOverlay) {
+                startOverlay.style.display = 'none';
+            }
+            
+            // Try to play music
             music.play().then(() => {
                 playBtn.textContent = '⏸';
-                musicStatus.textContent = 'Sedang diputar';
+                if (musicStatus) {
+                    musicStatus.textContent = 'Sedang diputar';
+                }
                 isPlaying = true;
             }).catch(err => {
                 console.log('Audio play error:', err);
-                musicStatus.textContent = 'Klik play untuk mulai';
+                if (musicStatus) {
+                    musicStatus.textContent = 'Klik play untuk mulai';
+                }
+                isPlaying = false;
             });
         }
 
