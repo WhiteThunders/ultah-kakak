@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday</title>
-
     <style>
         * {
             margin: 0;
@@ -14,100 +13,841 @@
 
         body {
             font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #e4b4fa, #ffe6f7);
-            height: 100vh;
+            background: linear-gradient(135deg, #e8e8e8 0%, #f5f5f5 50%, #ffffff 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* Overlay awal */
+        /* Start Overlay Styles */
         .start-overlay {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(4px);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 10;
-            transition: opacity 1s ease;
+            z-index: 10000;
+            backdrop-filter: blur(8px);
         }
 
         .start-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
+            display: none;
         }
 
         .start-button {
-            padding: 20px 40px;
-            font-size: 28px;
-            background: #ff77bc;
+            padding: 25px 60px;
+            font-size: 26px;
+            background: linear-gradient(135deg, #8b6f47 0%, #6f5739 100%);
             color: white;
             border: none;
-            border-radius: 15px;
+            border-radius: 60px;
             cursor: pointer;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            text-transform: uppercase;
+            letter-spacing: 3px;
             font-weight: bold;
-            box-shadow: 0 0 20px rgba(255, 96, 168, 0.7);
-            transition: 0.3s;
         }
 
         .start-button:hover {
-            background: #ff4fa3;
-            transform: scale(1.05);
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, #6f5739 0%, #8b6f47 100%);
         }
 
-        /* Isi halaman */
-        .container {
+        .start-button:active {
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        .book-container {
+            max-width: 1000px;
+            width: 100%;
+            perspective: 1500px;
+            position: relative;
+        }
+
+        .book {
+            display: flex;
+            background: #fff;
+            box-shadow: 
+                0 0 20px rgba(0,0,0,0.1),
+                0 20px 60px rgba(0,0,0,0.15),
+                inset 0 0 0 1px rgba(0,0,0,0.05);
+            border-radius: 5px;
+            overflow: hidden;
+            min-height: 700px;
+            position: relative;
+        }
+
+        .book::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, 
+                rgba(0,0,0,0.1) 0%, 
+                rgba(0,0,0,0.05) 50%, 
+                rgba(0,0,0,0.1) 100%);
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        .page {
+            flex: 1;
+            padding: 60px 50px;
+            background: #fefefe;
+            position: relative;
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-left {
+            border-right: 1px solid #e0e0e0;
+            background: linear-gradient(to right, #fafafa 0%, #ffffff 100%);
+        }
+
+        .page-right {
+            background: linear-gradient(to left, #fafafa 0%, #ffffff 100%);
+        }
+
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 30px;
+            pointer-events: none;
+        }
+
+        .page-left::before {
+            right: 0;
+            background: linear-gradient(to left, 
+                rgba(0,0,0,0.03) 0%, 
+                transparent 100%);
+        }
+
+        .page-right::before {
+            left: 0;
+            background: linear-gradient(to right, 
+                rgba(0,0,0,0.03) 0%, 
+                transparent 100%);
+        }
+
+        .header {
             text-align: center;
-            color: #4b2354;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #d4a574;
         }
 
-        h1 {
-            font-size: 48px;
+        .header h1 {
+            font-size: 42px;
+            color: #8b6f47;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #a0826d;
+            font-style: italic;
+        }
+
+        .photo-frame {
+            background: white;
+            padding: 12px;
+            border: 1px solid #d0d0d0;
+            box-shadow: 
+                0 3px 10px rgba(0,0,0,0.1),
+                inset 0 0 0 1px rgba(255,255,255,0.5);
+            margin-bottom: 25px;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-frame:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+            border: 1px solid #e8e8e8;
+        }
+
+        .photo-frame.large img {
+            height: 520px;
+        }
+
+        .photo-caption {
+            text-align: center;
+            margin-top: 12px;
+            color: #666;
+            font-size: 15px;
+            font-style: italic;
+            letter-spacing: 0.5px;
+        }
+
+        .message-section {
+            margin-top: 30px;
+        }
+
+        .message-section h2 {
+            color: #8b6f47;
             margin-bottom: 20px;
+            font-size: 28px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
         }
 
-        p {
-            font-size: 22px;
+        .message-section p {
+            color: #555;
+            line-height: 1.9;
+            font-size: 16px;
+            margin-bottom: 18px;
+            text-align: justify;
+            text-indent: 30px;
+        }
+
+        .signature {
+            text-align: right;
+            font-style: italic;
+            color: #8b6f47;
+            font-size: 18px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 30px;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .page-left .page-number {
+            left: 50px;
+        }
+
+        .page-right .page-number {
+            right: 50px;
+        }
+
+        .decorative-corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #d4a574;
+            opacity: 0.3;
+        }
+
+        .corner-tl {
+            top: 20px;
+            left: 20px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-tr {
+            top: 20px;
+            right: 20px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-bl {
+            bottom: 20px;
+            left: 20px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner-br {
+            bottom: 20px;
+            right: 20px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .navigation {
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #8b6f47;
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background: #6f5739;
+            transform: scale(1.1);
+        }
+
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .page-indicator {
+            color: #8b6f47;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .music-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #8b6f47;
+            color: white;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .music-btn:hover {
+            background: #6f5739;
+            transform: scale(1.1);
+        }
+
+        .music-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .music-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #8b6f47;
+        }
+
+        .music-artist {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .music-status {
+            font-size: 11px;
+            color: #999;
+            margin-top: 3px;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            border-radius: 2px;
+            background: #ddd;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #8b6f47;
+            cursor: pointer;
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #8b6f47;
+            cursor: pointer;
+            border: none;
+        }
+
+        @media (max-width: 968px) {
+            .book {
+                flex-direction: column;
+                min-height: auto;
+            }
+
+            .book::before {
+                display: none;
+            }
+
+            .page {
+                padding: 40px 30px;
+                border: none !important;
+            }
+
+            .page-left::before,
+            .page-right::before {
+                display: none;
+            }
+
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .message-section h2 {
+                font-size: 24px;
+            }
+
+            .navigation {
+                bottom: -70px;
+            }
+
+            .nav-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .photo-frame img {
+                height: 200px;
+            }
+
+            .photo-frame.large img {
+                height: 300px;
+            }
+
+            .music-player {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 15px;
+                gap: 10px;
+            }
+
+            .music-info {
+                display: none;
+            }
+
+            .volume-control {
+                display: none;
+            }
+
+            .start-button {
+                padding: 20px 40px;
+                font-size: 20px;
+            }
         }
     </style>
 </head>
-
 <body>
-
-    <!-- Overlay -->
+    <!-- Start Overlay -->
     <div class="start-overlay" id="startOverlay">
-        <button class="start-button" onclick="startExperience()">🎉 MULAI 🎉</button>
+        <button class="start-button" id="startBtn">🎉 MULAI 🎉</button>
     </div>
 
-    <!-- Konten -->
-    <div class="container">
-        <h1>Happy Birthday!</h1>
-        <p>Semoga semua harapanmu segera dirayakan! 🎂✨</p>
+    <div class="book-container">
+        <div class="book">
+            <!-- Halaman 1 & 2 -->
+            <div class="page page-left active" data-page="1">
+                <div class="decorative-corner corner-tl"></div>
+                <div class="decorative-corner corner-bl"></div>
+                
+                <div class="header">
+                    <h1>Happy Birthday</h1>
+                    <p>Selamat Ulang Tahun</p>
+                </div>
+
+                <div class="photo-frame">
+                    <img src="yang 2.jpg" alt="Foto 1">
+                    <div class="photo-caption">Momen Indah Bersama</div>
+                </div>
+
+                <div class="photo-frame">
+                    <img src="yang 2.jpg" alt="Foto 2">
+                    <div class="photo-caption">Kenangan Yang Tak Terlupakan</div>
+                </div>
+
+                <div class="page-number">1</div>
+            </div>
+
+            <div class="page page-right active" data-page="2">
+                <div class="decorative-corner corner-tr"></div>
+                <div class="decorative-corner corner-br"></div>
+                
+                <div class="message-section">
+                    <h2>Untuk Bu Boss</h2>
+                    
+                    <p>
+                        Selamat ulang tahun untuk kakak terbaik di dunia! Di hari istimewa ini, terima kasih atas semua yang telah kakak lakukan. 
+                        Kakak selalu menjadi inspirasi dan teladan yang luar biasa bagiku.
+                    </p>
+
+                    <p>
+                        Semoga di usia yang baru ini, kakak selalu diberikan kesehatan yang 
+                        berlimpah, kebahagiaan yang tiada henti, dan kesuksesan dalam setiap 
+                        langkah yang kakak ambil. Semoga semua impian dan cita-cita kakak 
+                        dapat tercapai dengan indah.
+                    </p>
+
+                    <p>
+                        Terima kasih sudah menjadi kakak yang selalu ada, yang selalu memberikan 
+                        dukungan dan kasih sayang. Semoga hari-hari kakak selalu dipenuhi dengan 
+                        senyuman, canda tawa, dan cinta dari orang-orang terkasih.
+                    </p>
+                </div>
+
+                <div class="page-number">2</div>
+            </div>
+
+            <!-- Halaman 3 & 4 -->
+            <div class="page page-left" data-page="3">
+                <div class="decorative-corner corner-tl"></div>
+                <div class="decorative-corner corner-bl"></div>
+                
+                <div class="photo-frame large">
+                    <img src="yang 9.jpg" alt="Foto 3">
+                    <div class="photo-caption">Moment Spesial</div>
+                </div>
+
+                <div class="page-number">3</div>
+            </div>
+
+            <div class="page page-right" data-page="4">
+                <div class="decorative-corner corner-tr"></div>
+                <div class="decorative-corner corner-br"></div>
+                
+                <div class="photo-frame large">
+                    <img src="yang 10.jpg" alt="Foto 4">
+                    <div class="photo-caption">Kenangan Manis</div>
+                </div>
+
+                <div class="page-number">4</div>
+            </div>
+
+            <!-- Halaman 5 & 6 -->
+            <div class="page page-left" data-page="5">
+                <div class="decorative-corner corner-tl"></div>
+                <div class="decorative-corner corner-bl"></div>
+                
+                <div class="photo-frame">
+                    <img src="yang 4.jpg" alt="Foto 5">
+                    <div class="photo-caption">Senyum Bahagia</div>
+                </div>
+
+                <div class="photo-frame">
+                    <img src="yang 5.jpg" alt="Foto 6">
+                    <div class="photo-caption">Tawa Ceria</div>
+                </div>
+
+                <div class="page-number">5</div>
+            </div>
+
+            <div class="page page-right" data-page="6">
+                <div class="decorative-corner corner-tr"></div>
+                <div class="decorative-corner corner-br"></div>
+                
+                <div class="photo-frame">
+                    <img src="yang 6.jpg" alt="Foto 7">
+                    <div class="photo-caption">Kebersamaan</div>
+                </div>
+
+                <div class="photo-frame">
+                    <img src="yang 11.jpg" alt="Foto 8">
+                    <div class="photo-caption">Persahabatan</div>
+                </div>
+
+                <div class="page-number">6</div>
+            </div>
+
+            <!-- Halaman 7 & 8 -->
+            <div class="page page-left" data-page="7">
+                <div class="decorative-corner corner-tl"></div>
+                <div class="decorative-corner corner-bl"></div>
+                
+                <div class="message-section">
+                    <h2>Harapan & Doa</h2>
+                    
+                    <p>
+                        Semoga panjang umur, sehat selalu, dan bahagia selamanya. Selamat ulang 
+                        tahun, Kak! Semoga hari ini menjadi awal dari tahun yang penuh berkah 
+                        dan kebahagiaan.
+                    </p>
+
+                    <p>
+                        Teruslah menjadi pribadi yang menginspirasi banyak orang. Kakak adalah 
+                        cahaya bagi keluarga dan semua orang di sekitarmu. Semoga Allah selalu 
+                        melindungi dan memberkahi kakak.
+                    </p>
+
+                    <p>
+                        Di hari istimewa ini, aku mendoakan yang terbaik untuk kakak. Semoga 
+                        setiap langkah kakak dipenuhi dengan kebaikan dan kesuksesan.
+                    </p>
+                </div>
+
+                <div class="page-number">7</div>
+            </div>
+
+            <div class="page page-right" data-page="8">
+                <div class="decorative-corner corner-tr"></div>
+                <div class="decorative-corner corner-br"></div>
+                
+                <div class="message-section">
+                    <h2>Penutup</h2>
+                    
+                    <p>
+                        Terima kasih telah menjadi kakak yang luar biasa. Terima kasih untuk 
+                        semua kenangan indah yang telah kita ciptakan bersama. Aku berharap 
+                        kita akan menciptakan lebih banyak kenangan indah di masa depan.
+                    </p>
+
+                    <p>
+                        Selamat ulang tahun sekali lagi, Kak! Semoga hari ini memberikan 
+                        kebahagiaan yang tak terlupakan. Aku sangat bersyukur memiliki kakak 
+                        sepertimu.
+                    </p>
+
+                    <div class="signature">
+                        Dengan segenap cinta dan doa,<br>
+                        <strong>Adikmu Yang Menyayangimu</strong>
+                    </div>
+                </div>
+
+                <div class="page-number">8</div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn">←</button>
+            <div class="page-indicator">
+                <span id="currentPage">1</span> / <span id="totalPages">4</span>
+            </div>
+            <button class="nav-btn" id="nextBtn">→</button>
+        </div>
     </div>
 
-    <!-- Musik -->
+    <!-- Music Player -->
+    <div class="music-player">
+        <button class="music-btn" id="playBtn">▶</button>
+        <div class="music-info">
+            <div class="music-title">Semua Aku Dirayakan</div>
+            <div class="music-artist">Nadin Amizah</div>
+            <div class="music-status" id="musicStatus">Klik MULAI untuk memulai</div>
+        </div>
+        <div class="volume-control">
+            <span style="font-size: 14px;">🔊</span>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70">
+        </div>
+    </div>
+
     <audio id="bgMusic" loop>
-        <source src="semua_akan_dirayakan.mp3" type="audio/mpeg">
+        <source src="semua akan dirayakan.mp4" type="audio/mp4">
     </audio>
 
     <script>
+        // Variables
+        let currentSpread = 1;
+        const totalSpreads = 4;
+        let isPlaying = false;
+
+        // DOM Elements
+        const music = document.getElementById('bgMusic');
+        const playBtn = document.getElementById('playBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const musicStatus = document.getElementById('musicStatus');
+        const startOverlay = document.getElementById('startOverlay');
+        const startBtn = document.getElementById('startBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Set initial volume
+        music.volume = 0.7;
+
+        // Start Experience Function
         function startExperience() {
-            const overlay = document.getElementById("startOverlay");
-            const music = document.getElementById("bgMusic");
-
-            // Fade out overlay
-            overlay.classList.add("hidden");
-
-            // Play music
-            music.play().catch(err => {
-                console.error("Gagal memutar audio:", err);
-            });
+            console.log('Start button clicked!');
+            
+            // Hide overlay
+            startOverlay.classList.add('hidden');
+            
+            // Try to play music
+            music.play()
+                .then(() => {
+                    console.log('Music playing successfully');
+                    playBtn.textContent = '⏸';
+                    musicStatus.textContent = 'Sedang diputar';
+                    isPlaying = true;
+                })
+                .catch(err => {
+                    console.log('Cannot autoplay:', err);
+                    musicStatus.textContent = 'Klik play untuk mulai musik';
+                    isPlaying = false;
+                });
         }
-    </script>
 
+        // Toggle Music Function
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                playBtn.textContent = '▶';
+                musicStatus.textContent = 'Dijeda';
+                isPlaying = false;
+            } else {
+                music.play()
+                    .then(() => {
+                        playBtn.textContent = '⏸';
+                        musicStatus.textContent = 'Sedang diputar';
+                        isPlaying = true;
+                    })
+                    .catch(err => {
+                        console.error('Error playing:', err);
+                        musicStatus.textContent = 'Error: Tidak dapat memutar';
+                        alert('File musik tidak ditemukan. Pastikan file "semua akan dirayakan.mp4" ada di folder yang sama dengan index.html');
+                    });
+            }
+        }
+
+        // Change Volume Function
+        function changeVolume() {
+            music.volume = volumeSlider.value / 100;
+        }
+
+        // Update Pages Function
+        function updatePages() {
+            const allPages = document.querySelectorAll('.page');
+            allPages.forEach(page => page.classList.remove('active'));
+
+            const leftPage = document.querySelector(`[data-page="${currentSpread * 2 - 1}"]`);
+            const rightPage = document.querySelector(`[data-page="${currentSpread * 2}"]`);
+            
+            if (leftPage) leftPage.classList.add('active');
+            if (rightPage) rightPage.classList.add('active');
+
+            document.getElementById('currentPage').textContent = currentSpread;
+            document.getElementById('totalPages').textContent = totalSpreads;
+
+            prevBtn.disabled = currentSpread === 1;
+            nextBtn.disabled = currentSpread === totalSpreads;
+        }
+
+        // Next Page Function
+        function nextPage() {
+            if (currentSpread < totalSpreads) {
+                currentSpread++;
+                updatePages();
+            }
+        }
+
+        // Previous Page Function
+        function previousPage() {
+            if (currentSpread > 1) {
+                currentSpread--;
+                updatePages();
+            }
+        }
+
+        // Event Listeners
+        startBtn.addEventListener('click', startExperience);
+        playBtn.addEventListener('click', toggleMusic);
+        volumeSlider.addEventListener('input', changeVolume);
+        prevBtn.addEventListener('click', previousPage);
+        nextBtn.addEventListener('click', nextPage);
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextPage();
+            } else if (e.key === 'ArrowLeft') {
+                previousPage();
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                toggleMusic();
+            }
+        });
+
+        // Audio Error Handling
+        music.addEventListener('error', (e) => {
+            console.error('Audio error:', e);
+            musicStatus.textContent = 'File musik tidak ditemukan';
+            isPlaying = false;
+        });
+
+        // Audio Loaded
+        music.addEventListener('canplaythrough', () => {
+            console.log('Audio loaded successfully');
+        });
+
+        // Initialize
+        updatePages();
+
+        console.log('Script loaded successfully');
+    </script>
 </body>
 </html>
